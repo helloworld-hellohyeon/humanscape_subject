@@ -97,6 +97,27 @@ export const Recommend = ({ children }: { children: ReactNode }) => {
 };
 
 export const Input = () => {
+  const { register, watch } = useForm();
+  const diseaseValue = watch("disease");
+
+  const searchDisease = useCallback(async (keyword: string) => {
+    const result = await fetch("/data.json")
+      .then((res) => res.json())
+      .then((res) => {
+        const filtered = res.filter((r: { name: string; id: number }) =>
+          r.name.includes(keyword)
+        );
+        return filtered;
+      });
+    console.log(result);
+  }, []);
+
+  useEffect(() => {
+    const trimemdDisease = diseaseValue ? diseaseValue.trim() : diseaseValue;
+    if (trimemdDisease) {
+      searchDisease(trimemdDisease);
+    }
+  }, [diseaseValue]);
 
   return (
     <InputWrapper>
