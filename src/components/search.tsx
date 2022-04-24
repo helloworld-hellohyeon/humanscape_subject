@@ -1,7 +1,10 @@
-import styled from "@emotion/styled";
 import { ReactNode, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import styled from "@emotion/styled";
 import { ReactComponent as SearchIcon } from "../assets/search.svg";
+import { ReducerType } from "redux/rootReducer";
+import { storeDiseaseResult } from "redux/Slices/users";
 
 const BORDER_RADIUS = 42;
 
@@ -115,6 +118,8 @@ export const Recommends = () => {
 
 export const Input = () => {
   const { register, watch } = useForm();
+  const searchResults = useSelector((state: ReducerType) => state.diseases);
+  const dispatch = useDispatch();
   const diseaseValue = watch("disease");
 
   const searchDisease = useCallback(async (keyword: string) => {
@@ -126,8 +131,12 @@ export const Input = () => {
         );
         return filtered;
       });
-    console.log(result);
+    dispatch(storeDiseaseResult(result));
   }, []);
+
+  useEffect(() => {
+    console.log(searchResults);
+  }, [searchResults]);
 
   useEffect(() => {
     const trimemdDisease = diseaseValue ? diseaseValue.trim() : diseaseValue;
