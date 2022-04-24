@@ -14,9 +14,7 @@ const App = () => {
         <Header />
         <Contents>
           <Input />
-          <Recommends>
-            <Recommend>암</Recommend>
-          </Recommends>
+          <Recommends />
         </Contents>
         <Footer />
       </Layout>

@@ -61,7 +61,7 @@ const SearchButton = styled.button`
   background-color: ${(props) => props.theme.colors.blue3};
 `;
 
-export const Recommends = styled.ul`
+const RecommendsSelf = styled.ul`
   padding: 24px 24px 16px;
   border-radius: 20px;
   background-color: #fff;
@@ -75,6 +75,14 @@ const RecommendWrapper = styled.li`
   &:before {
     content: SearchIcon;
   }
+`;
+
+const ListComment = styled.div`
+  font-weight: ${(props) => props.theme.font.weight.normal};
+  font-size: 13px;
+  letter-spacing: -0.018em;
+  line-height: 1.6;
+  color: #6a737b;
 `;
 
 const RecommendSelf = styled.div`
@@ -93,6 +101,15 @@ export const Recommend = ({ children }: { children: ReactNode }) => {
       <SearchIcon />
       <RecommendSelf>{children}</RecommendSelf>
     </RecommendWrapper>
+  );
+};
+
+export const Recommends = () => {
+  return (
+    <RecommendsSelf>
+      <ListComment>추천 검색어</ListComment>
+      <Recommend>암</Recommend>
+    </RecommendsSelf>
   );
 };
 
