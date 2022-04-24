@@ -1,10 +1,10 @@
-import { ReactNode, useCallback, useEffect } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 import { ReactComponent as SearchIcon } from "../assets/search.svg";
 import { ReducerType } from "redux/rootReducer";
-import { storeDiseaseResult } from "redux/Slices/users";
+import { startSearching, storeDiseaseResult } from "redux/Slices/disease";
 
 const BORDER_RADIUS = 42;
 
@@ -53,6 +53,7 @@ const InputSelf = styled.input`
 `;
 
 const SearchButton = styled.button`
+  cursor: pointer;
   padding: 18px 32px;
   font: inherit;
   font-size: 1.125rem;
@@ -65,19 +66,26 @@ const SearchButton = styled.button`
 `;
 
 const RecommendsSelf = styled.ul`
+  margin-top: 8px;
   padding: 24px 24px 16px;
   border-radius: 20px;
   background-color: #fff;
 `;
 
 const RecommendWrapper = styled.li`
-  display: flex;
-  align-items: center;
   width: 100%;
 
   &:before {
     content: SearchIcon;
   }
+`;
+
+const A = styled.a`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  color: #000;
 `;
 
 const ListComment = styled.div`
@@ -101,48 +109,69 @@ const RecommendSelf = styled.div`
 export const Recommend = ({ children }: { children: ReactNode }) => {
   return (
     <RecommendWrapper>
-      <SearchIcon />
-      <RecommendSelf>{children}</RecommendSelf>
+      <A href="#">
+        <SearchIcon />
+        <RecommendSelf>{children}</RecommendSelf>
+      </A>
     </RecommendWrapper>
   );
 };
 
 export const Recommends = () => {
+  const { diseases: searchResult, loading } = useSelector(
+    (state: ReducerType) => state.diseases
+  );
+  const [comment, setComment] = useState("");
+
+  useEffect(() => {
+    if (loading) {
+      setComment("검색 중...");
+    } else if (!loading && searchResult.length > 0) {
+      setComment("추천 검색어");
+    } else {
+      setComment("");
+    }
+  }, [searchResult, loading]);
+
   return (
     <RecommendsSelf>
-      <ListComment>추천 검색어</ListComment>
-      <Recommend>암</Recommend>
+      {comment && <ListComment>{comment}</ListComment>}
+      {searchResult.slice(0, 6).map((s) => (
+        <Recommend key={s.id}>{s.name}</Recommend>
+      ))}
     </RecommendsSelf>
   );
 };
 
 export const Input = () => {
   const { register, watch } = useForm();
-  const searchResults = useSelector((state: ReducerType) => state.diseases);
   const dispatch = useDispatch();
   const diseaseValue = watch("disease");
 
-  const searchDisease = useCallback(async (keyword: string) => {
-    const result = await fetch("/data.json")
-      .then((res) => res.json())
-      .then((res) => {
-        const filtered = res.filter((r: { name: string; id: number }) =>
-          r.name.includes(keyword)
-        );
-        return filtered;
-      });
-    dispatch(storeDiseaseResult(result));
-  }, []);
+  const searchDisease = useCallback(
+    async (keyword: string) => {
+      dispatch(startSearching());
+
+      if (keyword) {
+        const result = await fetch("/data.json")
+          .then((res) => res.json())
+          .then((res) => {
+            const filtered = res.filter((r: { name: string; id: number }) =>
+              r.name.includes(keyword)
+            );
+            return filtered;
+          });
+
+        dispatch(storeDiseaseResult(result));
+      } else {
+        dispatch(storeDiseaseResult([]));
+      }
+    },
+    [dispatch, storeDiseaseResult, startSearching]
+  );
 
   useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
-
-  useEffect(() => {
-    const trimemdDisease = diseaseValue ? diseaseValue.trim() : diseaseValue;
-    if (trimemdDisease) {
-      searchDisease(trimemdDisease);
-    }
+    searchDisease(diseaseValue);
   }, [diseaseValue]);
 
   return (

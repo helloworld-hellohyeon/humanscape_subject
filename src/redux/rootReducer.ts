@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import diseases from "./Slices/users";
+import diseases from "./Slices/disease";
 
 const reducer = combineReducers({
   diseases,

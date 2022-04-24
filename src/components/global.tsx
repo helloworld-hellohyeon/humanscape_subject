@@ -14,6 +14,18 @@ const style = css`
     font-family: ${theme.font.family};
     background-color: #fff;
   }
+
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 `;
 
 const Global = () => {
