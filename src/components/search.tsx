@@ -9,9 +9,6 @@ import { Title } from "./layout";
 
 const BORDER_RADIUS = 42;
 
-// TODO: line-height 정리
-// TODO: input, button height 안맞음
-
 const Self = styled.div`
   width: 100%;
   max-width: ${(props) => props.theme.sizes.maxWidth}px;
@@ -23,10 +20,6 @@ const Form = styled.form`
   align-items: center;
   justify-content: center;
   width: 100%;
-  font-family: ${(props) => props.theme.font.family};
-  font-weight: ${(props) => props.theme.font.weight.normal};
-  font-size: 1rem;
-  line-height: 1.6;
 `;
 
 const InputBox = styled.div`
@@ -37,8 +30,6 @@ const InputBox = styled.div`
   height: ${(props) => props.theme.sizes.searchInput}px;
   padding: 20px 24px;
   font-size: 1.125rem;
-  line-height: 1.6;
-  letter-spacing: ${(props) => props.theme.font.spacing}em;
   border-top-left-radius: ${BORDER_RADIUS}px;
   border-bottom-left-radius: ${BORDER_RADIUS}px;
   background-color: #fff;
@@ -102,10 +93,7 @@ const A = styled.a`
 `;
 
 const ListComment = styled.div`
-  font-weight: ${(props) => props.theme.font.weight.normal};
   font-size: 13px;
-  letter-spacing: ${(props) => props.theme.font.spacing}em;
-  line-height: 1.6;
   color: #6a737b;
 `;
 
@@ -113,10 +101,6 @@ const RecommendText = styled.div`
   flex: 1;
   margin-left: 12px;
   padding: 8px 0;
-  font-weight: ${(props) => props.theme.font.weight.normal};
-  font-size: 1rem;
-  letter-spacing: ${(props) => props.theme.font.spacing}em;
-  line-height: 1.6;
 `;
 
 const Recommends = () => {

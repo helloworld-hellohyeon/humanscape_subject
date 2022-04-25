@@ -40,8 +40,6 @@ const Menu = styled.li`
 
 const A = styled.a`
   padding: 8px 16px;
-  font-size: 1rem;
-  line-height: 1.6;
 `;
 
 const Header = () => {

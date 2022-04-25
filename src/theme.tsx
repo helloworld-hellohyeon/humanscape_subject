@@ -5,7 +5,8 @@ export type CommonTheme = {
       normal: number;
       bold: number;
     };
-    spacing: number;
+    lineHeight: number;
+    spacing: string;
   };
   colors: {
     blue1: string;
@@ -28,7 +29,8 @@ export const theme: CommonTheme = {
       normal: 400,
       bold: 700,
     },
-    spacing: -0.018,
+    spacing: "-0.018em",
+    lineHeight: 1.6,
   },
   colors: {
     blue1: "#CAE9FF",

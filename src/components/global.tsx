@@ -12,6 +12,11 @@ const style = css`
     margin: 0;
     padding: 0;
     font-family: ${theme.font.family};
+    font-weight: ${theme.font.weight.normal};
+    font-size: 1rem;
+    letter-spacing: ${theme.font.spacing};
+    line-height: ${theme.font.lineHeight};
+    color: #000;
     background-color: #fff;
     box-sizing: border-box;
   }

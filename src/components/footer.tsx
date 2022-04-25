@@ -18,11 +18,6 @@ const Inner = styled.div`
   width: 100%;
   max-width: 1040px;
   padding: 0 20px;
-  font-family: ${(props) => props.theme.font.family};
-  font-weight: ${(props) => props.theme.font.weight.normal};
-  font-size: 1rem;
-  letter-spacing: ${(props) => props.theme.font.spacing}em;
-  line-height: 1.6;
 `;
 
 const Copyright = styled.div``;

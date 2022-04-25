@@ -11,8 +11,6 @@ export const Title = styled.h1`
   margin-bottom: 20px;
   font-size: 2.125rem;
   font-weight: ${(props) => props.theme.font.weight.bold};
-  letter-spacing: ${(props) => props.theme.font.spacing}em;
-  line-height: 1.6;
   text-align: center;
 `;
 

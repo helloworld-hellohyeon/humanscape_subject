@@ -8,9 +8,7 @@ const Self = styled.div`
   justify-content: center;
   width: 100%;
   margin-top: 224px;
-  font-family: ${(props) => props.theme.font.family};
   font-weight: ${(props) => props.theme.font.weight.bold};
-  letter-spacing: ${(props) => props.theme.font.spacing}em;
   color: #fff;
   background-color: ${(props) => props.theme.colors.blue2};
 `;
@@ -35,9 +33,6 @@ const Title = styled.div`
 const Button = styled.button`
   padding: 10px 24px;
   border-radius: 24px;
-  font-size: 1rem;
-  font-weight: ${(props) => props.theme.font.weight.normal};
-  line-height: 1.6;
   color: ${(props) => props.theme.colors.blue2};
   border: 0;
   background-color: #fff;
