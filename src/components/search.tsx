@@ -13,12 +13,12 @@ const BORDER_RADIUS = 42;
 // TODO: input, button height 안맞음
 
 const Self = styled.div`
-  position: relative;
   width: 100%;
   max-width: ${(props) => props.theme.sizes.maxWidth}px;
 `;
 
-const InputWrapper = styled.form`
+const Form = styled.form`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,6 +34,7 @@ const InputBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: ${(props) => props.theme.sizes.searchInput}px;
   padding: 20px 24px;
   font-size: 1.125rem;
   line-height: 1.6;
@@ -45,6 +46,7 @@ const InputBox = styled.div`
 
 const InputSelf = styled.input`
   width: 100%;
+  height: 100%;
   margin-left: 12px;
   font: inherit;
   line-height: 1.15;
@@ -61,6 +63,7 @@ const InputSelf = styled.input`
 
 const SearchButton = styled.button`
   cursor: pointer;
+  height: 100%;
   padding: 18px 32px;
   font: inherit;
   font-size: 1.125rem;
@@ -73,6 +76,9 @@ const SearchButton = styled.button`
 `;
 
 const RecommendsSelf = styled.ul`
+  position: absolute;
+  top: ${(props) => props.theme.sizes.searchInput}px;
+  left: 0;
   width: 100%;
   margin-top: 8px;
   padding: 24px 24px 16px;
@@ -176,7 +182,7 @@ const Input = () => {
   }, [diseaseValue]);
 
   return (
-    <InputWrapper>
+    <>
       <InputBox>
         <SearchIcon />
         <InputSelf
@@ -185,7 +191,7 @@ const Input = () => {
         />
       </InputBox>
       <SearchButton>검색</SearchButton>
-    </InputWrapper>
+    </>
   );
 };
 
@@ -201,8 +207,10 @@ const Search = () => {
           <br />
           온라인으로 참여하기
         </Title>
-        <Input />
-        {diseaseValue && <Recommends />}
+        <Form>
+          <Input />
+          {diseaseValue && <Recommends />}
+        </Form>
       </Self>
     </FormProvider>
   );

@@ -17,6 +17,7 @@ export type CommonTheme = {
   sizes: {
     maxWidth: number;
     header: number;
+    searchInput: number;
   };
 };
 
@@ -39,5 +40,6 @@ export const theme: CommonTheme = {
   sizes: {
     maxWidth: 700,
     header: 56,
+    searchInput: 65,
   },
 };
