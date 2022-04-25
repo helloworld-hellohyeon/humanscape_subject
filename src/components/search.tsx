@@ -1,13 +1,20 @@
-import { memo, ReactNode, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { debounce } from "lodash";
 import styled from "@emotion/styled";
-import { ReactComponent as SearchIcon } from "../assets/search.svg";
 import { ReducerType } from "redux/rootReducer";
-import { startSearching, storeDiseaseResult } from "redux/Slices/disease";
+import {
+  Disease,
+  startSearching,
+  endSearching,
+  storeDiseaseResult,
+} from "redux/Slices/disease";
 import { Title } from "./layout";
+import { ReactComponent as SearchIcon } from "../assets/search.svg";
 
 const BORDER_RADIUS = 42;
+const RESULT_MAX_COUNT = 7;
 
 const Self = styled.div`
   width: 100%;
@@ -103,6 +110,54 @@ const RecommendText = styled.div`
   padding: 8px 0;
 `;
 
+const Input = () => {
+  const { watch, register } = useFormContext();
+  const dispatch = useDispatch();
+  const diseaseValue = watch("disease");
+
+  const searchDisease = useCallback(
+    debounce(async (keyword: string) => {
+      if (keyword) {
+        const result = await fetch("/data.json")
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(`API CALLED_${keyword}`);
+
+            const filtered = res.filter((r: Disease) =>
+              r.name.includes(keyword.trim())
+            );
+            return filtered.slice(0, RESULT_MAX_COUNT - 1);
+          });
+
+        dispatch(storeDiseaseResult(result));
+      } else {
+        dispatch(storeDiseaseResult([]));
+      }
+
+      dispatch(endSearching());
+    }, 400),
+    [dispatch, storeDiseaseResult, endSearching]
+  );
+
+  useEffect(() => {
+    dispatch(startSearching());
+    searchDisease(diseaseValue);
+  }, [dispatch, searchDisease, diseaseValue]);
+
+  return (
+    <>
+      <InputBox>
+        <SearchIcon />
+        <InputSelf
+          {...register("disease")}
+          placeholder="질환명을 입력해 주세요."
+        />
+      </InputBox>
+      <SearchButton>검색</SearchButton>
+    </>
+  );
+};
+
 const Recommends = () => {
   const { diseases: searchResult, loading } = useSelector(
     (state: ReducerType) => state.diseases
@@ -117,12 +172,12 @@ const Recommends = () => {
     } else {
       setComment("");
     }
-  }, [searchResult, loading]);
+  }, [searchResult, loading, setComment]);
 
   return (
     <RecommendsSelf>
       {comment && <ListComment>{comment}</ListComment>}
-      {searchResult.slice(0, 6).map((s) => (
+      {searchResult.map((s) => (
         <Recommend key={s.id}>
           <A href="#">
             <SearchIcon />
@@ -131,51 +186,6 @@ const Recommends = () => {
         </Recommend>
       ))}
     </RecommendsSelf>
-  );
-};
-
-const Input = () => {
-  const { watch, register } = useFormContext();
-  const dispatch = useDispatch();
-  const diseaseValue = watch("disease");
-
-  const searchDisease = useCallback(
-    async (keyword: string) => {
-      dispatch(startSearching());
-
-      if (keyword) {
-        const result = await fetch("/data.json")
-          .then((res) => res.json())
-          .then((res) => {
-            const filtered = res.filter((r: { name: string; id: number }) =>
-              r.name.includes(keyword)
-            );
-            return filtered;
-          });
-
-        dispatch(storeDiseaseResult(result));
-      } else {
-        dispatch(storeDiseaseResult([]));
-      }
-    },
-    [dispatch, storeDiseaseResult, startSearching]
-  );
-
-  useEffect(() => {
-    searchDisease(diseaseValue);
-  }, [diseaseValue]);
-
-  return (
-    <>
-      <InputBox>
-        <SearchIcon />
-        <InputSelf
-          {...register("disease")}
-          placeholder="질환명을 입력해 주세요."
-        />
-      </InputBox>
-      <SearchButton>검색</SearchButton>
-    </>
   );
 };
 

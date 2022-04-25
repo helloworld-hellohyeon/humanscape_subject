@@ -12,7 +12,7 @@ export type State = {
 
 const initalState = {
   diseases: [] as Disease[],
-  loading: false,
+  loading: true,
 };
 
 export const diseases = createSlice({
@@ -20,18 +20,17 @@ export const diseases = createSlice({
   initialState: initalState,
   reducers: {
     startSearching(state) {
-      {
-        state.loading = true;
-      }
+      state.loading = true;
+    },
+    endSearching(state) {
+      state.loading = false;
     },
     storeDiseaseResult(state, action: PayloadAction<Disease[]>) {
-      {
-        state.diseases = action.payload;
-        state.loading = false;
-      }
+      state.diseases = action.payload;
     },
   },
 });
 
-export const { storeDiseaseResult, startSearching } = diseases.actions;
+export const { storeDiseaseResult, startSearching, endSearching } =
+  diseases.actions;
 export default diseases.reducer;
