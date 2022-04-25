@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import diseases from "./Slices/disease";
+import search from "./Slices/search";
 
 const reducer = combineReducers({
-  diseases,
+  diseases: search,
 });
 
 export type ReducerType = ReturnType<typeof reducer>;

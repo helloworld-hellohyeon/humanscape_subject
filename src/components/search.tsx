@@ -9,7 +9,7 @@ import {
   startSearching,
   endSearching,
   storeDiseaseResult,
-} from "redux/Slices/disease";
+} from "redux/Slices/search";
 import { Title } from "./layout";
 import { ReactComponent as SearchIcon } from "../assets/search.svg";
 
@@ -113,7 +113,7 @@ const RecommendText = styled.div`
 const Input = () => {
   const { watch, register } = useFormContext();
   const dispatch = useDispatch();
-  const diseaseValue = watch("disease");
+  const diseaseValue = watch("search");
 
   const searchDisease = useCallback(
     debounce(async (keyword: string) => {
@@ -149,7 +149,7 @@ const Input = () => {
       <InputBox>
         <SearchIcon />
         <InputSelf
-          {...register("disease")}
+          {...register("search")}
           placeholder="질환명을 입력해 주세요."
         />
       </InputBox>
@@ -191,7 +191,7 @@ const Recommends = () => {
 
 const Search = () => {
   const methods = useForm();
-  const diseaseValue = methods.watch("disease");
+  const diseaseValue = methods.watch("search");
 
   return (
     <FormProvider {...methods}>

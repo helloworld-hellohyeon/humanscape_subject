@@ -15,8 +15,8 @@ const initalState = {
   loading: true,
 };
 
-export const diseases = createSlice({
-  name: "disease",
+export const search = createSlice({
+  name: "search",
   initialState: initalState,
   reducers: {
     startSearching(state) {
@@ -32,5 +32,5 @@ export const diseases = createSlice({
 });
 
 export const { storeDiseaseResult, startSearching, endSearching } =
-  diseases.actions;
-export default diseases.reducer;
+  search.actions;
+export default search.reducer;
