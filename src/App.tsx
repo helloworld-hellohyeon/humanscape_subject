@@ -5,8 +5,9 @@ import Header from "components/header";
 import Footer from "components/footer";
 import Search from "components/search";
 import { Layout, Contents } from "components/layout";
-import { theme } from "./theme";
+import Notification from "components/notification";
 import store from "redux/store";
+import { theme } from "./theme";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Header />
           <Contents>
             <Search />
+            <Notification />
           </Contents>
           <Footer />
         </Layout>

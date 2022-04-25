@@ -5,11 +5,18 @@ import styled from "@emotion/styled";
 import { ReactComponent as SearchIcon } from "../assets/search.svg";
 import { ReducerType } from "redux/rootReducer";
 import { startSearching, storeDiseaseResult } from "redux/Slices/disease";
+import { Title } from "./layout";
 
 const BORDER_RADIUS = 42;
 
 // TODO: line-height 정리
 // TODO: input, button height 안맞음
+
+const Self = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: ${(props) => props.theme.sizes.maxWidth}px;
+`;
 
 const InputWrapper = styled.form`
   display: flex;
@@ -30,7 +37,7 @@ const InputBox = styled.div`
   padding: 20px 24px;
   font-size: 1.125rem;
   line-height: 1.6;
-  letter-spacing: -0.018em;
+  letter-spacing: ${(props) => props.theme.font.spacing}em;
   border-top-left-radius: ${BORDER_RADIUS}px;
   border-bottom-left-radius: ${BORDER_RADIUS}px;
   background-color: #fff;
@@ -66,6 +73,7 @@ const SearchButton = styled.button`
 `;
 
 const RecommendsSelf = styled.ul`
+  width: 100%;
   margin-top: 8px;
   padding: 24px 24px 16px;
   border-radius: 20px;
@@ -84,14 +92,13 @@ const A = styled.a`
   display: flex;
   align-items: center;
   width: 100%;
-  text-decoration: none;
   color: #000;
 `;
 
 const ListComment = styled.div`
   font-weight: ${(props) => props.theme.font.weight.normal};
   font-size: 13px;
-  letter-spacing: -0.018em;
+  letter-spacing: ${(props) => props.theme.font.spacing}em;
   line-height: 1.6;
   color: #6a737b;
 `;
@@ -102,7 +109,7 @@ const RecommendText = styled.div`
   padding: 8px 0;
   font-weight: ${(props) => props.theme.font.weight.normal};
   font-size: 1rem;
-  letter-spacing: -0.018em;
+  letter-spacing: ${(props) => props.theme.font.spacing}em;
   line-height: 1.6;
 `;
 
@@ -188,8 +195,15 @@ const Search = () => {
 
   return (
     <FormProvider {...methods}>
-      <Input />
-      {diseaseValue && <Recommends />}
+      <Self>
+        <Title>
+          국내 모든 임상시험 검색하고
+          <br />
+          온라인으로 참여하기
+        </Title>
+        <Input />
+        {diseaseValue && <Recommends />}
+      </Self>
     </FormProvider>
   );
 };

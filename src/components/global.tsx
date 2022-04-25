@@ -13,6 +13,21 @@ const style = css`
     padding: 0;
     font-family: ${theme.font.family};
     background-color: #fff;
+    box-sizing: border-box;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h5 {
+    margin: 0;
+    padding: 0;
   }
 
   ul,
@@ -25,6 +40,15 @@ const style = css`
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  a {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
   }
 `;
 
