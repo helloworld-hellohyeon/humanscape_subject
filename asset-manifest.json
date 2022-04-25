@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.js": "/humanscape_subject/static/js/main.39efca6d.js",
+    "static/js/787.088f9e24.chunk.js": "/humanscape_subject/static/js/787.088f9e24.chunk.js",
+    "static/media/notice.svg": "/humanscape_subject/static/media/notice.2c608a70964c3e4a63779cef0307bb77.svg",
+    "static/media/logo.svg": "/humanscape_subject/static/media/logo.9f995f3c3ecc37fe3b2a2dce4220ff31.svg",
+    "index.html": "/humanscape_subject/index.html",
+    "static/media/search.svg": "/humanscape_subject/static/media/search.aa2c32102aa727289be1408989ad202d.svg",
+    "main.39efca6d.js.map": "/humanscape_subject/static/js/main.39efca6d.js.map",
+    "787.088f9e24.chunk.js.map": "/humanscape_subject/static/js/787.088f9e24.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.39efca6d.js"
+  ]
+}

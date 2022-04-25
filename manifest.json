@@ -1,0 +1,9 @@
+{
+  "short_name": "휴먼스케이프 과제",
+  "name": "휴먼스케이프 과제 전형_권현수",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
