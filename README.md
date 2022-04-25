@@ -1,46 +1,70 @@
-# Getting Started with Create React App
+# 휴먼스케이프 4월 프론트엔드 과제 전형
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+우선, 문제 제출과 검토, 채점 등 과제 전형 진행 시 채용하시는 분들께 있어 번거로운 부분이 많으실텐데 2주 가량의 긴 시간이 걸려 채용 과정에서의 지연을 발생시켜 죄송하다는 말씀 드립니다.  
+반응형 UI까지 구현하고 싶었으나, 과제 내 필수 사항과 도전 과제에서 미루어보아 마크업보다는 다른 부분에 대한 평가를 원하시는 것 같아 UI를 구현하느라 시간을 더 지체하기보단 로직 부분을 모두 구현했으면 제출하는 것이 좋을 것 같은 판단에 데스크탑 버전만 마크업이 되어있음에 양해 부탁드립니다.
 
-## Available Scripts
+## 구현한 방법과 이유
 
-In the project directory, you can run:
+### 방법
 
-### `npm start`
+구현한 순서를 간략하게 정리하면 아래와 같습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. 원본 페이지의 컴포넌트 구조와 기능을 분석
+2. 컴포넌트 구조 잡기
+3. 핵심이 되는 컴포넌트의 간단한 마크업
+4. 상태 관리 로직 구현
+5. 나머지 컴포넌트 마크업
+6. 리팩토링 및 도전과제 일부 수행
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 이유
 
-### `npm test`
+React, Redux와 같은 스택은 과제에서 지정된 스택이었으며, JavaScript가 아닌 TypeScript를 사용한 이유는 정적 타이핑이 오타 등의 기본적인 실수를 잡아주며, custom type을 사용하는 경우 IDE의 snippet과 autocomplete 기능을 활용할 수 있어 생산성이 높아지기 때문입니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+컴포넌트의 스타일 적용을 위해서는 `emotion` 라이브러리를, form 상태 관리를 위해서는 `react-hook-form`을 사용하였으며, 검색 API 호출 최적화를 위한 debounce는 `loadsh` 라이브러리를 사용하였습니다. emotion과 react-hook-form은 실무에서 사용해온 라이브러리로, 따로 사용법을 익힐 시간을 투자하지 않아도 되고 사용 경험이 좋았기 때문에 선택하였습니다. 특히 리스트와 같이 재사용되는 컴포넌트, 중복되는 스타일을 관리하기 위한 theme을 처리할 때 CSS-in-CSS나 CSS 파일 import를 하는 방법보다는 styled-component 방식을 사용하는 것이 좋겠다고 판단했습니다.
 
-### `npm run build`
+원본 페이지의 컴포넌트 구조를 먼저 나누면 어떤 상태를 어떤 컴포넌트에서 관리할지, 어떤 상태를 전역 상태로 분리할지 판단하고 공통되는 스타일을 찾아 theme로 묶기 용이하기 때문에 기본적인 파일과 styled-component를 이용해 와이어프레임 형태로 컴포넌트를 분리해두었습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+핵심이 되는 컴포넌트 (검색 기능, 해당 레포지토리에서는 `components/search.tsx`)의 기본적인 UI를 구현한 후, 검색 기능 내에서 쓰일 상태를 전역과 로컬로 구분하였는데 이때, `해당 상태가 어떤 컴포넌트 레벨에서 쓰일지 알 수 없을 때`로 판단하였습니다. 따라서 검색 결과와 검색 중임을 나타내는 플래그 값인 `loading`을 전역 상태로 관리하기 위해 Redux의 state로 설정해두었습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+편의를 위해 로컬에서 파일을 실행하지 않고도 결과물을 확인할 수 있도록 Github pages 호스팅을 사용하였습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 구현시 어려웠던 점
 
-### `npm run eject`
+1. Redux 익히기
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Redux는 해당 과제를 진행하며 처음 사용해본 라이브러리였기 때문에 문서를 읽고 사용법을 익히고 구조를 잡고 또 적용하는 과정이 구현할 때의 가장 어려웠던 지점이었습니다. 주로 사용하던 React Context API와 큰 구조는 다르지 않지만 파일 구조를 나누는 방법과 새로운 메서드들, 타입들에 대한 이해가 없다시피 하여 예제를 찾아보고 원하는 state를 적용해보고 리팩토링을 하는 과정이 매끄럽지 못하였습니다. 그럼에도 Redux를 찾아보고 하나하나 따라해보며 사용법을 익힐 수 있는 귀중한 경험이 되었습니다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. `loading` 조건 분기
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+또 다른 어려운 점으로는, loading state에 대한 `Comment` 문구 노출 조건에 대한 분기가 있었습니다. `startLoading()과 endLoading()`을 `dispatch`하는 타이밍과 `검색 중...`, `추천 검색어`, 아무것도 뜨지 않는 세 가지 경우를 판단하고 적절한 조건에 노출시키는 것에서 스스로 로직 정리가 빠르게 되지 않아 여러 방법과 타이밍을 시도해본 시간이 있었습니다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## 실행 방법
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 로컬 실행시
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. github 레포지토리 상단의 Code 버튼을 눌러 해당 레포지토리를 클론 받습니다.
+
+`git clone git@github.com:helloworld-hellohyeon/humanscape_subject.git`
+
+2. 패키지를 설치합니다.
+
+`yarn`
+
+3. 프로젝트를 실행합니다
+
+`yarn start`
+
+### 링크 실행시
+
+결과물 확인에서의 편의를 위해 Github Pages 호스팅으로 페이지를 배포해두었습니다
+[링크](https://helloworld-hellohyeon.github.io/humanscape_subject/)
+
+---
+
+## 참고 링크
+
+[React + TS 환경에 Redux Toolkit 세팅하기](https://velog.io/@johnyworld/React-TS-%ED%99%98%EA%B2%BD%EC%97%90-Redux-Toolkit-%EC%84%B8%ED%8C%85%ED%95%98%EA%B8%B0)
+
+[Redux Toolkit의 기본적인 사용법 1](https://velog.io/@zerozoo-front/Redux-toolkit%EC%9D%98-%EA%B8%B0%EB%B3%B8%EC%A0%81%EC%9D%B8-%EC%82%AC%EC%9A%A9%EB%B2%95-1-)
