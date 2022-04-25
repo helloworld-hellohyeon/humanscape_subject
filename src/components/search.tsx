@@ -1,6 +1,6 @@
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { memo, ReactNode, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import styled from "@emotion/styled";
 import { ReactComponent as SearchIcon } from "../assets/search.svg";
 import { ReducerType } from "redux/rootReducer";
@@ -72,7 +72,7 @@ const RecommendsSelf = styled.ul`
   background-color: #fff;
 `;
 
-const RecommendWrapper = styled.li`
+const Recommend = styled.li`
   width: 100%;
 
   &:before {
@@ -96,7 +96,7 @@ const ListComment = styled.div`
   color: #6a737b;
 `;
 
-const RecommendSelf = styled.div`
+const RecommendText = styled.div`
   flex: 1;
   margin-left: 12px;
   padding: 8px 0;
@@ -106,18 +106,7 @@ const RecommendSelf = styled.div`
   line-height: 1.6;
 `;
 
-export const Recommend = ({ children }: { children: ReactNode }) => {
-  return (
-    <RecommendWrapper>
-      <A href="#">
-        <SearchIcon />
-        <RecommendSelf>{children}</RecommendSelf>
-      </A>
-    </RecommendWrapper>
-  );
-};
-
-export const Recommends = () => {
+const Recommends = () => {
   const { diseases: searchResult, loading } = useSelector(
     (state: ReducerType) => state.diseases
   );
@@ -137,14 +126,19 @@ export const Recommends = () => {
     <RecommendsSelf>
       {comment && <ListComment>{comment}</ListComment>}
       {searchResult.slice(0, 6).map((s) => (
-        <Recommend key={s.id}>{s.name}</Recommend>
+        <Recommend key={s.id}>
+          <A href="#">
+            <SearchIcon />
+            <RecommendText>{s.name}</RecommendText>
+          </A>
+        </Recommend>
       ))}
     </RecommendsSelf>
   );
 };
 
-export const Input = () => {
-  const { register, watch } = useForm();
+const Input = () => {
+  const { watch, register } = useFormContext();
   const dispatch = useDispatch();
   const diseaseValue = watch("disease");
 
@@ -187,3 +181,17 @@ export const Input = () => {
     </InputWrapper>
   );
 };
+
+const Search = () => {
+  const methods = useForm();
+  const diseaseValue = methods.watch("disease");
+
+  return (
+    <FormProvider {...methods}>
+      <Input />
+      {diseaseValue && <Recommends />}
+    </FormProvider>
+  );
+};
+
+export default memo(Search);
